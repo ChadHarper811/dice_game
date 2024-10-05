@@ -16,8 +16,6 @@ let score = 0;
 let round = 1;
 let rolls = 0;
 
-
-
 const rollDice = () => {
     diceValuesArr = [];
 
@@ -85,6 +83,23 @@ const getHighestDuplicates = (arr) => {
     updateRadioOption(5, 0);
 };
 
+const detectFullHouse = (arr) => {
+    const counts = {};
+
+    for (const num of arr) {
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+
+    const hasThreeOfAKind = Object.values(counts).includes(3);
+    const hasPair = Object.values(counts).includes(2);
+
+    if (hasThreeOfAKind && hasPair) {
+        updateRadioOption(2, 25);
+    }
+
+    updateRadioOption(5, 0);
+};
+
 const resetRadioOptions = () => {
     scoreInputs.forEach((input) => {
         input.disabled = true;
@@ -113,14 +128,18 @@ const resetGame = () => {
     resetRadioOptions();
 };
 
+
+
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
         alert("You have made three rolls this round. Please select a score.");
     } else {
         rolls++;
+        resetRadioOptions();
         rollDice();
         updateStats();
         getHighestDuplicates(diceValuesArr);
+        detectFullHouse(diceValuesArr);
     }
 });
 
