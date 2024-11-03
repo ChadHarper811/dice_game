@@ -129,8 +129,27 @@ const resetGame = () => {
 };
 
 const checkForStraights = (arr) => {
-    
-}
+    const sortedNums = arr.slice().sort((a,b) => a - b);
+    let prev = sortedNums[0];
+    let count = 1;
+
+    for (const num of sortedNums) {
+        if (num === prev + 1) {
+            count++;
+        }
+        prev = num;
+    }
+
+    if (count === 5) {
+        updateRadioOption(3, 30);
+        updateRadioOption(4, 40);
+        return
+    } else if (count === 4) {
+        return updateRadioOption(4, 30);
+    }
+
+    updateRadioOption(5, 0);
+};
 
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
@@ -142,6 +161,7 @@ rollDiceBtn.addEventListener("click", () => {
         updateStats();
         getHighestDuplicates(diceValuesArr);
         detectFullHouse(diceValuesArr);
+        checkForStraights([1,2,3,4,4]);
     }
 });
 
