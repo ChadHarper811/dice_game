@@ -128,7 +128,9 @@ const resetGame = () => {
     resetRadioOptions();
 };
 
-
+const checkForStraights = (arr) => {
+    
+}
 
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
